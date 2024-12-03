@@ -25,7 +25,7 @@ CFLAGS		= -Wall -Wextra -Werror
 DFLAGS		= -MMD -MP -MF $(DEPDIR)/$*.d
 IFLAGS		= -I$(INCDIR) -I$(LIBFTDIR)/include
 LFLAGS		= -L$(LIBFTDIR) -lft
-CF			= $(CC) $(CFLAGS) $(IFLAGS) $(LFLAGS) $(DFLAGS)
+CF			= $(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS)
 
 # VPATH
 vpath %.c $(SRCDIR) $(LIBFTDIR)/$(SRCDIR)
@@ -43,7 +43,7 @@ all: $(LIBFT) $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	@echo -e "$(BLUE)Creating program $(UNDERLINE)$(NAME)$(RESET)$(BLUE)...$(RESET)"
-	@$(CF) $^ -o $@
+	@$(CF) $^ $(LFLAGS) -o $@
 	@echo -e "$(GREEN)$(BOLD)✓ Program $(UNDERLINE)$(NAME)$(RESET)$(GREEN)$(BOLD) successfully created!$(RESET)"
 
 $(LIBFT):
