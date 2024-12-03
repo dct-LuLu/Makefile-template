@@ -72,7 +72,7 @@ fclean:
 
 re: fclean all
 
-debug: CFLAGS += -g3
+debug: CFLAGS += -g
 debug:
 	@echo -e "$(YELLOW)$(BOLD)⚠ Building in debug mode...$(RESET)"
 	@$(MAKE) -s -C $(LIBFTDIR) debug
