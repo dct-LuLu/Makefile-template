@@ -1,3 +1,17 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: jaubry-- <marvin@42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/05 11:35:38 by jaubry--          #+#    #+#              #
+#    Updated: 2025/01/05 12:13:44 by jaubry--         ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
+SHELL := /bin/bash
+
 # Colors and formatting
 GREEN		= \e[1;32m
 BLUE		= \e[1;34m
@@ -25,7 +39,7 @@ CFLAGS		= -Wall -Wextra -Werror
 DFLAGS		= -MMD -MP -MF $(DEPDIR)/$*.d
 IFLAGS		= -I$(INCDIR) -I$(LIBFTDIR)/include
 LFLAGS		= -L$(LIBFTDIR) -lft
-CF			= $(CC) $(CFLAGS) $(IFLAGS) $(DFLAGS)
+CF			= $(CC) $(CFLAGS) $(IFLAGS)
 
 # VPATH
 vpath %.c $(SRCDIR) $(LIBFTDIR)/$(SRCDIR)
@@ -52,7 +66,7 @@ $(LIBFT):
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR) $(DEPDIR)
 	@echo -e "$(PURPLE)➜ Compiling $(UNDERLINE)$<$(RESET)"
-	@$(CF) -c $< -o $@
+	@$(CF) $(DFLAGS) -c $< -o $@
 
 $(OBJDIR) $(DEPDIR):
 	@echo -e "$(BLUE)Creating directory $(UNDERLINE)$@$(RESET)"
@@ -65,19 +79,18 @@ clean:
 
 fclean:
 	@$(MAKE) -s -C $(LIBFTDIR) fclean
-	@echo -e "$(RED)Cleaning $(UNDERLINE)$(NAME)$(RESET)$(RED) object files from $(UNDERLINE)$(OBJDIR)$(RESET)$(RED) and $(UNDERLINE)$(DEPDIR)$(RESET)"
+	@echo -e "$(RED)Cleaning object files from $(UNDERLINE)$(OBJDIR)$(RESET)$(RED) and $(UNDERLINE)$(DEPDIR)$(RESET)"
 	@rm -rf $(OBJDIR) $(DEPDIR)
 	@echo -e "$(RED)Removing program $(UNDERLINE)$(NAME)$(RESET)"
 	@rm -f $(NAME)
 
 re: fclean all
 
-debug: CFLAGS += -g
 debug:
 	@echo -e "$(YELLOW)$(BOLD)⚠ Building in debug mode...$(RESET)"
 	@$(MAKE) -s -C $(LIBFTDIR) debug
-	@$(MAKE) -s -B $(OBJS)
-	@$(MAKE) -s $(NAME)
+	@$(MAKE) -s CC="cc -g -D DEBUG=1" -B $(OBJS)
+	@$(MAKE) -s CC="cc -g -D DEBUG=1" $(NAME)
 	@echo -e "$(YELLOW)$(BOLD)✓ Debug build complete$(RESET)"
 
 help:
